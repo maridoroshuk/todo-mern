@@ -12,7 +12,7 @@ const createTodo = async (data) => {
 // Get user goals
 const getTodo = async () => {
   const response = await axios.get(API_URL);
-
+  console.log(response)
   return response.data;
 };
 

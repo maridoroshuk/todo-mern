@@ -6,7 +6,7 @@ const Todo = require('../models/todoModel')
 // @route   GET /api/todo
 // @access  Private
 const getTodo = asyncHandler(async (req, res) => {
-  const todos = await Todo.find({ user: req.user.id })
+  const todos = await Todo.find()
 
   res.status(200).json(todos)
 })
@@ -56,9 +56,9 @@ const deleteTodo = asyncHandler(async (req, res) => {
     throw new Error('Todo not found')
   }
 
-  await todo.remove()
+  const deletedTodo = await Todo.findByIdAndDelete(req.params.id)
 
-  res.status(200).json({ id: req.params.id })
+  res.status(200).json(deletedTodo)
 })
 
 module.exports = {

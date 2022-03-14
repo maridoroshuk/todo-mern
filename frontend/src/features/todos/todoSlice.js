@@ -1,120 +1,124 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import todoService from './todoService'
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import todoService from "./todoService";
 
 const initialState = {
   todoList: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
-  message: '',
-}
+  message: "",
+};
 
 // Create new todo
 export const createTodo = createAsyncThunk(
-  'todo/create',
+  "todo/create",
   async (data, thunkAPI) => {
     try {
-      return await todoService.createTodo(data)
+      return await todoService.createTodo(data);
     } catch (error) {
       const message =
         (error.response &&
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
   }
-)
+);
 
 // Get user todo
-export const getTodo = createAsyncThunk(
-  'todo/getAll',
-  async (_, thunkAPI) => {
-    try {
-      return await todoService.getTodo()
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
-    }
+export const getTodo = createAsyncThunk("todo/getAll", async (_, thunkAPI) => {
+  try {
+    return await todoService.getTodo();
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      error.toString();
+    return thunkAPI.rejectWithValue(message);
   }
-)
+});
 
 // Delete todo
 export const deleteTodo = createAsyncThunk(
-  'todo/delete',
+  "todo/delete",
   async (id, thunkAPI) => {
     try {
-      return await todoService.deleteTodo(id)
+      return await todoService.deleteTodo(id);
     } catch (error) {
       const message =
         (error.response &&
           error.response.data &&
           error.response.data.message) ||
         error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
     }
   }
-)
+);
 
 export const todoSlice = createSlice({
-  name: 'todo',
+  name: "todo",
   initialState,
   reducers: {
     reset: (state) => initialState,
+    toggleComplete(state, action) {
+      state.todoList = state.todoList.map((todo) => {
+        if (todo.id === action.payload) {
+          return { ...todo, completed: !todo.completed };
+        }
+      });
+    },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(createTodo.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(createTodo.fulfilled, (state, action) => {
-        console.log(action)
-        state.isLoading = false
-        state.isSuccess = true
-        state.todoList.push(action.payload)
+        console.log(action);
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.todoList.push(action.payload);
       })
       .addCase(createTodo.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
       .addCase(getTodo.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(getTodo.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
-        state.todoList = action.payload
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.todoList = action.payload;
       })
       .addCase(getTodo.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       })
       .addCase(deleteTodo.pending, (state) => {
-        state.isLoading = true
+        state.isLoading = true;
       })
       .addCase(deleteTodo.fulfilled, (state, action) => {
-        state.isLoading = false
-        state.isSuccess = true
+        state.isLoading = false;
+        state.isSuccess = true;
         state.todoList = state.todoList.filter(
           (todo) => todo._id !== action.payload.id
-        )
+        );
       })
       .addCase(deleteTodo.rejected, (state, action) => {
-        state.isLoading = false
-        state.isError = true
-        state.message = action.payload
-      })
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      });
   },
-})
+});
 
-export const { reset } = todoSlice.actions
-export default todoSlice.reducer
+export const { reset } = todoSlice.actions;
+export const todoAction = todoSlice.actions;
+export default todoSlice.reducer;
