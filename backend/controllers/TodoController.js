@@ -7,7 +7,6 @@ const Todo = require('../models/todoModel')
 // @access  Private
 const getTodo = asyncHandler(async (req, res) => {
   const todos = await Todo.find()
-
   res.status(200).json(todos)
 })
 
@@ -29,10 +28,10 @@ const setTodo = asyncHandler(async (req, res) => {
 
 // @desc    Update todo
 // @route   PUT /api/todo/:id
-// @access  Private
+// @access  Public
 const updateTodo = asyncHandler(async (req, res) => {
   const todo = await Todo.findById(req.params.id)
-
+  console.log(req.body)
   if (!todo) {
     res.status(400)
     throw new Error('Todo not found')
@@ -50,16 +49,18 @@ const updateTodo = asyncHandler(async (req, res) => {
 // @access  Private
 const deleteTodo = asyncHandler(async (req, res) => {
   const todo = await Todo.findById(req.params.id)
-
+  console.log(todo)
   if (!todo) {
     res.status(400)
     throw new Error('Todo not found')
   }
 
-  const deletedTodo = await Todo.findByIdAndDelete(req.params.id)
-
+  const deletedTodo = await todo.remove()
+  
   res.status(200).json(deletedTodo)
 })
+
+
 
 module.exports = {
   getTodo,

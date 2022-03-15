@@ -58,18 +58,29 @@ export const deleteTodo = createAsyncThunk(
   }
 );
 
+// Update todo
+export const updateTodo = createAsyncThunk(
+  "todo/update",
+  async (id, body, thunkAPI) => {
+    try {
+      return await todoService.updateTodo(id, body);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
     reset: (state) => initialState,
-    toggleComplete(state, action) {
-      state.todoList = state.todoList.map((todo) => {
-        if (todo.id === action.payload) {
-          return { ...todo, completed: !todo.completed };
-        }
-      });
-    },
   },
 
   extraReducers: (builder) => {
@@ -112,6 +123,27 @@ export const todoSlice = createSlice({
         );
       })
       .addCase(deleteTodo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(updateTodo.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateTodo.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.todoList = state.todoList.map(
+          (todo) => {
+            if(todo._id === action.payload.id) {
+              return {
+                ...todo, complete: !todo.complete
+              }
+            }
+          }
+        );
+      })
+      .addCase(updateTodo.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

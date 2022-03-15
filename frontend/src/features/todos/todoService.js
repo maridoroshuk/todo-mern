@@ -12,7 +12,7 @@ const createTodo = async (data) => {
 // Get user goals
 const getTodo = async () => {
   const response = await axios.get(API_URL);
-  console.log(response)
+  
   return response.data;
 };
 
@@ -23,10 +23,18 @@ const deleteTodo = async (todoId) => {
   return response.data;
 };
 
+// Update user goal
+const updateTodo = async (todoId, body) => {
+  const response = await axios.put(API_URL + todoId, body);
+  
+  return response.data;
+};
+
 const todoService = {
   createTodo,
   getTodo,
   deleteTodo,
+  updateTodo
 };
 
 export default todoService;

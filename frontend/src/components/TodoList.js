@@ -14,6 +14,7 @@ function TodoList() {
   console.log(todoList)
 
   useEffect(() => {
+    dispatch(getTodo());
     if (isError) {
       console.log(message);
     }

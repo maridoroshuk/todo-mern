@@ -8,6 +8,6 @@ const {
 } = require("../controllers/TodoController");
 
 router.route("/").get(getTodo).post(setTodo);
-router.route("/:id").delete(updateTodo).put(deleteTodo);
+router.route("/:id").delete(deleteTodo).put(updateTodo);
 
 module.exports = router;

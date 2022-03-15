@@ -1,20 +1,22 @@
 import React from "react";
 import { useDispatch } from 'react-redux';
-import {deleteTodo, todoAction } from '../features/todos/todoSlice'
+import {deleteTodo, updateTodo} from '../features/todos/todoSlice'
 
 const TodoItem = ({todo}) => {
   const dispatch = useDispatch()
+
 
   const deleteHandler = () => {
     dispatch(deleteTodo(todo._id))
   }
 
   const completeHandler = () => {
-    dispatch(todoAction.toggleComplete(todo._id))
+    dispatch(updateTodo(todo._id, {complete: true}))
   }
+
   return (
     <div id="todos" class="todos">
-      <li className={todo.completed ? "completed" : "uncompleted"}>
+      <li className={todo.complete ? "completed" : "uncompleted"}>
         <button className="complete-btn">
         <i className="fas fa-check"></i>
         </button>
