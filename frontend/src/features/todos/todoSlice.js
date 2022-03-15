@@ -58,8 +58,26 @@ export const deleteTodo = createAsyncThunk(
   }
 );
 
-// Update todo
-export const updateTodo = createAsyncThunk(
+// Toggle todo
+export const toggleTodo = createAsyncThunk(
+  "todo/complete",
+  async (id, body, thunkAPI) => {
+    try {
+      return await todoService.updateTodo(id, body);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Edit todo
+export const editTodo = createAsyncThunk(
   "todo/update",
   async (id, body, thunkAPI) => {
     try {
@@ -119,7 +137,7 @@ export const todoSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.todoList = state.todoList.filter(
-          (todo) => todo._id !== action.payload.id
+          (todo) => todo._id !== action.payload._id
         );
       })
       .addCase(deleteTodo.rejected, (state, action) => {
@@ -127,23 +145,50 @@ export const todoSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(updateTodo.pending, (state) => {
+      .addCase(toggleTodo.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateTodo.fulfilled, (state, action) => {
+      .addCase(toggleTodo.fulfilled, (state, action) => {
+        console.log(action.payload._id);
         state.isLoading = false;
         state.isSuccess = true;
-        state.todoList = state.todoList.map(
-          (todo) => {
-            if(todo._id === action.payload.id) {
-              return {
-                ...todo, complete: !todo.complete
-              }
-            }
+        state.todoList = state.todoList.map((todo) => {
+          console.log(todo._id);
+          if (todo._id === action.payload._id) {
+            return {
+              ...todo,
+              complete: !todo.complete,
+            };
           }
-        );
+          return todo;
+        });
+        console.log(state.todoList);
       })
-      .addCase(updateTodo.rejected, (state, action) => {
+      .addCase(toggleTodo.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(editTodo.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(editTodo.fulfilled, (state, action) => {
+        console.log(action.payload._id);
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.todoList = state.todoList.map((todo) => {
+          console.log(todo._id);
+          if (todo._id === action.payload._id) {
+            return {
+              ...todo,
+              text: action.payload.text,
+            };
+          }
+          return todo;
+        });
+        console.log(state.todoList);
+      })
+      .addCase(editTodo.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

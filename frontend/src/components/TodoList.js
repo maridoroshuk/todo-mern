@@ -11,7 +11,6 @@ function TodoList() {
   const { todoList, isLoading, isError, message } = useSelector(
     (state) => state.todos
   );
-  console.log(todoList)
 
   useEffect(() => {
     dispatch(getTodo());
