@@ -25,13 +25,12 @@
 }
 body {
   color: #444;
-  font-family: 'Source Code Pro', monospace;
+  font-family: "Source Code Pro", monospace;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   margin: 0;
-
 }
 .App {
   display: flex;
@@ -39,10 +38,9 @@ body {
   align-items: center;
 }
 h1 {
-  color: #CDAAAF;
+  color: #cdaaaf;
   font-size: 4rem;
   opacity: 0.7;
-
 }
 
 .section {
@@ -59,19 +57,16 @@ h1 {
   padding: 1rem 2rem;
   display: block;
   width: 100%;
-  outline:none;
-  font-family: 'Source Code Pro', monospace;
-
+  outline: none;
+  font-family: "Source Code Pro", monospace;
 }
 
-.input::placeholder{
+.input::placeholder {
   color: #dfd5d5;
   font-style: italic;
 }
 
-
-
-.todos{
+.todos {
   background-color: #fff;
   padding: 0;
   margin: 0;
@@ -80,19 +75,16 @@ h1 {
   width: 400px;
 }
 
-.todos li{
+.todos li {
   border-top: 1px solid #e5e5e5;
   cursor: pointer;
   padding: 1rem 4rem;
   position: relative;
   display: flex;
   word-wrap: break-word;
-  
-  
-
 }
 
-.todos li.completed{
+.todos li.completed {
   color: #b6b6b6;
   text-decoration: line-through;
 }
@@ -104,56 +96,55 @@ small {
 }
 
 .complete-btn {
- position: absolute;
- left: 1rem;
- align-self: center;
- color: #CDAAAF;
- border: none;
- background-color: transparent;
- cursor: pointer;
- border-radius: 50%;
- border: 2px solid #CDAAAF;
- width: 2.2rem;
- height: 2.2rem;
- opacity: 0.4;
- transition: opacity .10s ease-in-out;
+  position: absolute;
+  left: 1rem;
+  align-self: center;
+  color: #cdaaaf;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 2px solid #cdaaaf;
+  width: 2.2rem;
+  height: 2.2rem;
+  opacity: 0.4;
+  transition: opacity 0.1s ease-in-out;
 }
-.complete-btn:hover{
+.complete-btn:hover {
   opacity: 1;
 }
 
-
 .uncomplete-btn {
-position: absolute;
- left: 1rem;
- align-self: center;
- border-radius: 50%;
- border: 2px solid #CDAAAF;
- color: #CDAAAF;
- background-color: transparent;
- cursor: pointer;
- width: 2.2rem;
- height: 2.2rem;
+  position: absolute;
+  left: 1rem;
+  align-self: center;
+  border-radius: 50%;
+  border: 2px solid #cdaaaf;
+  color: #cdaaaf;
+  background-color: transparent;
+  cursor: pointer;
+  width: 2.2rem;
+  height: 2.2rem;
 }
 
 .edit-btn {
- position: absolute;
- right: 3rem;
- border: none;
- align-self: center;
- background-color: transparent;
- color: rgb(157, 84, 95);
- cursor: pointer;
+  position: absolute;
+  right: 3rem;
+  border: none;
+  align-self: center;
+  background-color: transparent;
+  color: rgb(157, 84, 95);
+  cursor: pointer;
 }
 
 .destroy-btn {
- position: absolute;
- right: 1rem;
- align-self: center;
- border: none;
- background-color: transparent;
- color: rgb(157, 84, 95);
- cursor: pointer;
+  position: absolute;
+  right: 1rem;
+  align-self: center;
+  border: none;
+  background-color: transparent;
+  color: rgb(157, 84, 95);
+  cursor: pointer;
 }
 
 .filter-todo {
@@ -164,16 +155,16 @@ position: absolute;
   margin: 1rem;
   cursor: pointer;
 }
-.filter-todo p:hover{
-  color: #CDAAAF;
+.filter-todo p:hover {
+  color: #cdaaaf;
 }
-.input-changed {
+.input-todo {
   outline: none;
   border: none;
-  font-family: 'Source Code Pro', monospace;
+  font-family: "Source Code Pro", monospace;
   font-size: 1rem;
-
 }
 .empty-todo {
   text-align: center;
 }
+

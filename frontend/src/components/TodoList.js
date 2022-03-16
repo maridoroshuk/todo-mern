@@ -3,7 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import Spinner from "../components/Spinner";
 import TodoItem from "../components/TodoItem";
 import Form from "../components/Form";
-import { getTodo, reset } from "../features/todos/todoSlice";
+import {
+  getTodo,
+  reset,
+  setFilteredTodoList,
+} from "../features/todos/todoSlice";
 
 function TodoList() {
   const dispatch = useDispatch();
@@ -22,6 +26,10 @@ function TodoList() {
     };
   }, [isError, message, dispatch]);
 
+  const statusHandler = (e) => {
+    const status = e.target.innerText;
+    dispatch(setFilteredTodoList(status));
+  };
 
   return (
     <>
@@ -36,9 +44,15 @@ function TodoList() {
                 <TodoItem key={todo._id} todo={todo} />
               ))}
               <div className="filter-todo">
-                <p id="filter-todo-all">all</p>
-                <p id="filter-todo-completed">completed</p>
-                <p id="filter-todo-uncompleted">uncompleted</p>
+                <p onClick={statusHandler} id="filter-todo-all">
+                  all
+                </p>
+                <p onClick={statusHandler} id="filter-todo-completed">
+                  completed
+                </p>
+                <p onClick={statusHandler} id="filter-todo-uncompleted">
+                  uncompleted
+                </p>
               </div>
             </div>
           ) : (

@@ -15,7 +15,7 @@ function Form() {
   };
 
   return (
-    <form id="form" for="" onSubmit={onSubmit}>
+    <form id="form" htmlFor="" onSubmit={onSubmit}>
       <input
         onChange={(e) => setText(e.target.value)}
         value={text}

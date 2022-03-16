@@ -28,9 +28,9 @@ export const createTodo = createAsyncThunk(
 );
 
 // Get user todo
-export const getTodo = createAsyncThunk("todo/getAll", async (_, thunkAPI) => {
+export const getTodo = createAsyncThunk("todo/getAll", async (body, thunkAPI) => {
   try {
-    return await todoService.getTodo();
+    return await todoService.getTodo(body);
   } catch (error) {
     const message =
       (error.response && error.response.data && error.response.data.message) ||
@@ -94,20 +94,50 @@ export const editTodo = createAsyncThunk(
   }
 );
 
+export const setFilteredTodoList = createAsyncThunk(
+  "todo/filter",
+  async (id, body, thunkAPI) => {
+    try {} catch {}
+  }
+)
+
 export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
     reset: (state) => initialState,
+    // setFilteredTodoList(state, action) {
+    //   console.log(state.todoList);
+    //   if (action.payload === "completed") {
+    //     state.todoList = state.todoList.filter(
+    //       (todo) => todo.completed === true
+    //     );
+    //   } else if (action.payload === "uncompleted") {
+    //     state.todoList = state.todoList.filter(
+    //       (todo) => todo.completed === false
+    //     );
+    //   }
+    //   console.log(state.todoList);
+    // },
   },
 
   extraReducers: (builder) => {
     builder
+      .addCase(setFilteredTodoList.fulfilled, (state, action) => {
+        if (action.payload === "completed") {
+          state.todoList = state.todoList.filter(
+            (todo) => todo.completed === true
+          );
+        } else if (action.payload === "uncompleted") {
+          state.todoList = state.todoList.filter(
+            (todo) => todo.completed === false
+          );
+        }
+      })
       .addCase(createTodo.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(createTodo.fulfilled, (state, action) => {
-        console.log(action);
         state.isLoading = false;
         state.isSuccess = true;
         state.todoList.push(action.payload);
@@ -149,11 +179,9 @@ export const todoSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(toggleTodo.fulfilled, (state, action) => {
-        console.log(action.payload._id);
         state.isLoading = false;
         state.isSuccess = true;
         state.todoList = state.todoList.map((todo) => {
-          console.log(todo._id);
           if (todo._id === action.payload._id) {
             return {
               ...todo,
@@ -162,7 +190,6 @@ export const todoSlice = createSlice({
           }
           return todo;
         });
-        console.log(state.todoList);
       })
       .addCase(toggleTodo.rejected, (state, action) => {
         state.isLoading = false;
@@ -173,11 +200,9 @@ export const todoSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(editTodo.fulfilled, (state, action) => {
-        console.log(action.payload._id);
         state.isLoading = false;
         state.isSuccess = true;
         state.todoList = state.todoList.map((todo) => {
-          console.log(todo._id);
           if (todo._id === action.payload._id) {
             return {
               ...todo,
@@ -186,7 +211,6 @@ export const todoSlice = createSlice({
           }
           return todo;
         });
-        console.log(state.todoList);
       })
       .addCase(editTodo.rejected, (state, action) => {
         state.isLoading = false;
@@ -197,5 +221,4 @@ export const todoSlice = createSlice({
 });
 
 export const { reset } = todoSlice.actions;
-export const todoAction = todoSlice.actions;
 export default todoSlice.reducer;

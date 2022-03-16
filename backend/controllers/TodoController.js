@@ -6,7 +6,7 @@ const Todo = require('../models/todoModel')
 // @route   GET /api/todo
 // @access  Private
 const getTodo = asyncHandler(async (req, res) => {
-  const todos = await Todo.find()
+  const todos = await Todo.find(req.body)
   res.status(200).json(todos)
 })
 

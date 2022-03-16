@@ -10,8 +10,8 @@ const createTodo = async (data) => {
 };
 
 // Get user goals
-const getTodo = async () => {
-  const response = await axios.get(API_URL);
+const getTodo = async (condition) => {
+  const response = await axios.get(API_URL, condition);
   
   return response.data;
 };
