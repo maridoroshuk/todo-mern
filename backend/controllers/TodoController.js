@@ -30,8 +30,9 @@ const setTodo = asyncHandler(async (req, res) => {
 // @route   PUT /api/todo/:id
 // @access  Public
 const updateTodo = asyncHandler(async (req, res) => {
-  const todo = await Todo.findById(req.params.id)
   console.log(req.body)
+  const todo = await Todo.findById(req.params.id)
+
   if (!todo) {
     res.status(400)
     throw new Error('Todo not found')

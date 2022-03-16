@@ -28,17 +28,22 @@ export const createTodo = createAsyncThunk(
 );
 
 // Get user todo
-export const getTodo = createAsyncThunk("todo/getAll", async (body, thunkAPI) => {
-  try {
-    return await todoService.getTodo(body);
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const getTodo = createAsyncThunk(
+  "todo/getAll",
+  async (body, thunkAPI) => {
+    try {
+      return await todoService.getTodo(body);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 // Delete todo
 export const deleteTodo = createAsyncThunk(
@@ -80,6 +85,7 @@ export const toggleTodo = createAsyncThunk(
 export const editTodo = createAsyncThunk(
   "todo/update",
   async (id, body, thunkAPI) => {
+    console.log(body)
     try {
       return await todoService.updateTodo(id, body);
     } catch (error) {
@@ -97,28 +103,16 @@ export const editTodo = createAsyncThunk(
 export const setFilteredTodoList = createAsyncThunk(
   "todo/filter",
   async (id, body, thunkAPI) => {
-    try {} catch {}
+    try {
+    } catch {}
   }
-)
+);
 
 export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
     reset: (state) => initialState,
-    // setFilteredTodoList(state, action) {
-    //   console.log(state.todoList);
-    //   if (action.payload === "completed") {
-    //     state.todoList = state.todoList.filter(
-    //       (todo) => todo.completed === true
-    //     );
-    //   } else if (action.payload === "uncompleted") {
-    //     state.todoList = state.todoList.filter(
-    //       (todo) => todo.completed === false
-    //     );
-    //   }
-    //   console.log(state.todoList);
-    // },
   },
 
   extraReducers: (builder) => {
@@ -200,6 +194,7 @@ export const todoSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(editTodo.fulfilled, (state, action) => {
+        console.log(action.payload)
         state.isLoading = false;
         state.isSuccess = true;
         state.todoList = state.todoList.map((todo) => {
