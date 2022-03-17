@@ -9,7 +9,7 @@ const TodoItem = ({ todo }) => {
   const dispatch = useDispatch();
 
   const completeHandler = () => {
-    dispatch(toggleTodo(todo._id));
+    dispatch(toggleTodo({id: todo._id, complete: !todo.complete}));
   };
 
   const deleteHandler = () => {
@@ -18,9 +18,12 @@ const TodoItem = ({ todo }) => {
 
   return (
     <div id="todos" className="todos">
-      <li className={todo.complete ? "completed" : "uncompleted"}>
-        <button className="complete-btn">
-          <i className="fas fa-check"></i>
+     <li className={todo.complete ? "completed" : "uncompleted"}>
+        <button
+          onClick={completeHandler}
+          className={todo.complete ? "complete-btn" : "uncomplete-btn"}
+        >
+          {todo.complete ? <i className="fas fa-check"></i> : <></>}
         </button>
         <TodoText
           onCompleteClick={completeHandler}

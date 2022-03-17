@@ -66,9 +66,11 @@ export const deleteTodo = createAsyncThunk(
 // Toggle todo
 export const toggleTodo = createAsyncThunk(
   "todo/complete",
-  async (id, body, thunkAPI) => {
+  async (params, thunkAPI) => {
     try {
-      return await todoService.updateTodo(id, body);
+      return await todoService.updateTodo(params.id, {
+        complete: params.complete,
+      });
     } catch (error) {
       const message =
         (error.response &&
@@ -86,7 +88,7 @@ export const editTodo = createAsyncThunk(
   "todo/update",
   async (params, thunkAPI) => {
     try {
-      return await todoService.updateTodo(params.id, {text: params.text});
+      return await todoService.updateTodo(params.id, { text: params.text });
     } catch (error) {
       const message =
         (error.response &&
@@ -193,7 +195,7 @@ export const todoSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(editTodo.fulfilled, (state, action) => {
-        console.log(action.payload)
+        console.log(action.payload);
         state.isLoading = false;
         state.isSuccess = true;
         state.todoList = state.todoList.map((todo) => {

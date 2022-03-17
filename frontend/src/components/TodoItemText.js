@@ -29,10 +29,7 @@ const TodoText = ({ inputVisible, todo, setInputVisible, onCompleteClick }) => {
 
   const submitEditTextHandler = (e) => {
     e.preventDefault();
-    // setTextInput(e.target.value);
-    console.log(textInput);
-
-    dispatch(editTodo({id: todo._id, text: textInput}));
+    dispatch(editTodo({ id: todo._id, text: textInput }));
     setInputVisible(false);
   };
   return (
