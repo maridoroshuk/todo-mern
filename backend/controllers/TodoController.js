@@ -32,7 +32,7 @@ const setTodo = asyncHandler(async (req, res) => {
 const updateTodo = asyncHandler(async (req, res) => {
   
   const todo = await Todo.findById(req.params.id)
-
+  
   if (!todo) {
     res.status(400)
     throw new Error('Todo not found')
