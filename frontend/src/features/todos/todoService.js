@@ -25,7 +25,7 @@ const deleteTodo = async (todoId) => {
 
 // Update user goal
 const updateTodo = async (todoId, body) => {
-  const response = await axios.put(API_URL + todoId, body);
+  const response = await axios.put(API_URL + todoId, {body});
   
   return response.data;
 };

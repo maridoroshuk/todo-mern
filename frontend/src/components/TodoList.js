@@ -28,7 +28,10 @@ function TodoList() {
 
   const statusHandler = (e) => {
     const status = e.target.innerText;
-    dispatch(setFilteredTodoList(status));
+    if (status === 'completed') {
+      dispatch(getTodo({completed: true}));
+    }
+    
   };
 
   return (

@@ -32,7 +32,7 @@ const TodoText = ({ inputVisible, todo, setInputVisible, onCompleteClick }) => {
     // setTextInput(e.target.value);
     console.log(textInput);
 
-    dispatch(editTodo(todo._id, {text: textInput}));
+    dispatch(editTodo({id: todo._id, text: textInput}));
     setInputVisible(false);
   };
   return (

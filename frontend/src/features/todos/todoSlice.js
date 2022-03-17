@@ -84,9 +84,10 @@ export const toggleTodo = createAsyncThunk(
 // Edit todo
 export const editTodo = createAsyncThunk(
   "todo/update",
-  async (id, body, thunkAPI) => {
-    console.log(body)
+  async (object, thunkAPI) => {
     try {
+      const id = object.id;
+      const body = object.body;
       return await todoService.updateTodo(id, body);
     } catch (error) {
       const message =
